@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>CORS Simple + Preflight Demo</title>
+</head>
+<body>
+<h1>CORS Demo: Simple & Preflight Requests</h1>
+<button onclick="simpleGet()">Simple GET Request</button>
+<button onclick="preflightPost()">Preflight POST Request</button>
+<h3>Response:</h3>
+<pre id="result"></pre>
+<script>
+const apiURL = "http://localhost/yaman/index.php";
+function simpleGet() {
+fetch(apiURL)
+.then(res => res.json())
+.then(data => {
+document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+})
+.catch(err => {
+document.getElementById('result').textContent = 'Error: ' + err;
+});
+}
+function preflightPost() {
+fetch(apiURL, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'X-Custom-Header': 'my-custom-value'
+},
+body: JSON.stringify({ message: "Hello from frontend POST" })
+})
+.then(res => res.json())
+.then(data => {
+document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+})
+.catch(err => {
+document.getElementById('result').textContent = 'Error: ' + err;
+});
+}
+</script>
+</body>
+</html>
